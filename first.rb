@@ -12,9 +12,9 @@ class MisterTwister
 
   # Say hi to everybody
   def say_hi
-  @array1 = test(@array1)
+  @array1 = exceptions_worker(@array1)
   @array1 = @array
-  @array2 = test(@array2)
+  @array2 = exceptions_worker(@array2)
   @array2 = @array
   p @array1
   p @array2
@@ -22,7 +22,7 @@ class MisterTwister
   end
 
 protected
-  def test(array)  #Обработчик исключений внутри массива. всё приводим к integer
+  def exceptions_worker(array)  #Обработчик исключений внутри массива. всё приводим к integer
     @array = Array.new
     array.each do |f|
       #Исключение nil
@@ -69,23 +69,3 @@ end
 
     mt = MisterTwister.new
     mt.say_hi
-
-
-#puts Mister.output
-#array1 = [[4, 19], nil, [32, 41], 65]
-#array2 = [234, 0, 21, 54]
-#hash = Hash[array1.collect { |item| [item, "#{item}"] } ]
-
-#p array1
-#p array2
-#p hash
-
-
-# очень наркоманское решение =)... после того как сделал - убедился в этом.  вы простите как массив собирались складывать с числом?
-#i = 0
-#hash = Hash.new
-#while i < array1.size do
-#hash["#{array1[i]}+#{array2[i]}".to_sym] = array1[i].to_s+array2[i].to_s
-#i+=1
-#end
-#p hash
