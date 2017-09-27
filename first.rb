@@ -1,4 +1,7 @@
-#require 'pry'
+#Необходимо написать программу на ruby, на выходе которой будет хеш,
+#ключами которого будут числа из обоих массивов a и b, а соотв. значениями-сумма,
+#сколько раз встречается число как в первом, так и во втором массиве.
+
 
 class MisterTwister
   attr_accessor :arrays
@@ -7,10 +10,9 @@ class MisterTwister
   def initialize(array1 = [[4, 19, [1, 6]], nil, [32, 41], 65], array2 = [234, 0, 21, [54]])
     @array1 = array1
     @array2 = array2
-    #@array1 = Array.new([[4, 19], nil, [32, 41], 65])
   end
 
-  # Say hi to everybody
+  # start action
   def say_hi
   @array1 = exceptions_worker(@array1)
   @array1 = @array
@@ -55,7 +57,9 @@ protected
     f = b
   end
 
-  def arrays_to_hash(array1, array2)
+  def arrays_to_hash(array1, array2)  #вот по условию задачи этот экшн создаёт хеш,
+  #ключами которого будут числа из обоих массивов array1 и array2, а соотв. значениями-сумма,
+  #сколько раз встречается число как в первом, так и во втором массиве.
     i = 0
     hash = Hash.new
     while i < array1.size do
