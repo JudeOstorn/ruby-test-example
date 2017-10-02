@@ -1,7 +1,7 @@
-
+#срочно модифицировать это всё в гем! а после отделаться парой строк
 
 module HashMaker
-   # Украдено и переделано!  бесит ARGS прописывать!.
+   # Украдено и переделано!
 
   def self.calculate(array1, array2)
     array = array1 + array2
@@ -16,15 +16,16 @@ module HashMaker
       result[i] += 1
       result
     end
-    p "Result: #{array}"
+    #p "Result: #{array}"
   end
 end
 
-HashMaker.calculate(array1 = [[4, 19, [1, 1, 32, "6"]], nil, [32, 41], 65], array2 = [234, nil, 0, "6", 21, [54,21,32,[1,4]]])
-
+a = HashMaker.calculate(array1 = [[4, 19, [1, 1, 32, "6"]], nil, [32, 41], 65], array2 = [234, nil, 0, "6", 21, [54,21,32,[1,4]]])
+p a
 
 p 'Желаете ли вы глянуть первый(неправильный) вариант решения задачи?(y/n)'
-a = gets.chomp
+#a = gets.chomp
+a = 'n'
 if a.casecmp('y').zero?
 
   class MisterTwister
@@ -53,8 +54,8 @@ if a.casecmp('y').zero?
     def exceptions_worker(array) # Обработчик исключений внутри массива. всё приводим к integer
       @array = []
       array.each do |f|
-        # Исключение nil
-        f = f.to_i if f.nil? == true
+
+        f = f.to_i if f.nil? == true # Исключение nil
 
         # Исключение двумерных++ масивов (ой щас рекурсия будет)
         f = array_exeption(f, 0) if f.is_a?(Array) == true
