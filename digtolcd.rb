@@ -75,6 +75,6 @@ class LCD
       ' ' + (' ' * @size) + ' ' + (' ' * @spacing)
     end
   end
-
+end
 
 LCD.new(3, 3).display(ARGV.join(" "))
