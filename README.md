@@ -1,5 +1,12 @@
 Практика по Ruby
 
+```
+# для первого задания
+
+bundle install  #установит единственный гем.) ну или
+gem install Hashmaker  #тоже вариант.
+```
+
 Задания
 >
 >> 1) arrays-to-hash.rb
