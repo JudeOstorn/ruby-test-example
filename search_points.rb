@@ -28,7 +28,7 @@ class Search_parametrs
 
   include Search_points
 
-  def initialize(radius, center, points)
+  def initialize(radius: 5, center: [56.123124,72.123124], points: [[43,54],[65,56]])
     @radius = radius
     @center = center
     @points = points
@@ -41,7 +41,7 @@ end
   center = [56.123124,72.123124]
   points = [[56,76],[34,12],[43,54],[65,156]]
 
-  params = Search_parametrs.new(radius, center, points)
+  params = Search_parametrs.new(radius: radius, center: center, points: points)
 
   a = params.search_points
   p a
