@@ -1,6 +1,11 @@
-n = 10
-array = (1..n).to_a
+size = 12431231
+array = (1..size).to_a
+history = []
 
-array.shuffle.each do |f|
-  p f
+(size + 5).times do
+  history.clear if history.size >= array.size
+  current_item = (array - history).sample
+  history << current_item
+  p "Текущий элемент: #{current_item}"
+  p "история: #{history}"
 end

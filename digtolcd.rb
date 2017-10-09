@@ -1,7 +1,7 @@
 class LCD
   attr_accessor(:size, :spacing)
 
-  @@lcd_display_data = { '0' => [1, 3, 0, 3, 1],
+  LCD_DISPLAY_DATA = { '0' => [1, 3, 0, 3, 1],
                          '1' => [0, 1, 0, 1, 0],
                          '2' => [1, 1, 1, 2, 1],
                          '3' => [1, 1, 1, 1, 1],
@@ -12,7 +12,7 @@ class LCD
                          '8' => [1, 3, 1, 3, 1],
                          '9' => [1, 3, 1, 1, 1] }
 
-  @@lcd_states = %w[HORIZONTAL
+  LCD_STATES = %w[HORIZONTAL
                     VERTICAL
                     HORIZONTAL
                     VERTICAL
@@ -25,14 +25,14 @@ class LCD
   end
 
   def display(digits)
-    states = @@lcd_states.reverse
-    0.upto(@@lcd_states.length) do |i|
+    states = LCD_STATES.reverse
+    0.upto(LCD_STATES.length) do |i|
       case states.pop
       when 'HORIZONTAL'
         line = ''
         digits.each_byte do |b|
           line += horizontal_segment(
-            @@lcd_display_data[b.chr][i]
+            LCD_DISPLAY_DATA[b.chr][i]
           )
         end
         print line + "\n"
@@ -41,7 +41,7 @@ class LCD
           line = ''
           digits.each_byte do |b|
             line += vertical_segment(
-              @@lcd_display_data[b.chr][i]
+              LCD_DISPLAY_DATA[b.chr][i]
             )
           end
           print line + "\n"

@@ -10,10 +10,8 @@ module SearchPoints
   def search_points(points: [[43, 54], [65, 56]])
     result = []
 
-    points.each do |point|
-      if ((point[0] - center[0])**2 + (point[1] - center[1])**2) <= radius**2
-        result << point
-      end
+    result = points.select do |point|
+      ((point[0] - center[0])**2 + (point[1] - center[1])**2) <= radius**2
     end
 
     result
