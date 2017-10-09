@@ -34,7 +34,7 @@ end
 
 radius = 10
 center = [56.123124, 72.123124]
-points = [[56, 76], [34, 12], [43, 54], [65, 156]]
+points = [[56, 76], [34, 12], [43, 54], [65, 156], [57, 65], [58, 63]]
 
 params = Search_parametrs.new(radius: radius, center: center, points: points)
 
