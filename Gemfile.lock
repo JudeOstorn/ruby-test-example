@@ -2,12 +2,14 @@ GEM
   remote: https://rubygems.org/
   specs:
     Hashmaker (1.1.0)
+    ipaddr (1.0.0)
 
 PLATFORMS
   ruby
 
 DEPENDENCIES
   Hashmaker (~> 1.0)
+  ipaddr
 
 BUNDLED WITH
    1.16.0.pre.2
