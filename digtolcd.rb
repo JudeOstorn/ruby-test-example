@@ -12,14 +12,12 @@ class LCD
                          '8' => [1, 3, 1, 3, 1],
                          '9' => [1, 3, 1, 1, 1] }
 
-  @@lcd_states = %w[
-    HORIZONTAL
-    VERTICAL
-    HORIZONTAL
-    VERTICAL
-    HORIZONTAL
-    DONE
-  ]
+  @@lcd_states = %w[HORIZONTAL
+                    VERTICAL
+                    HORIZONTAL
+                    VERTICAL
+                    HORIZONTAL
+                    DONE]
 
   def initialize(size = 1, spacing = 1)
     @size = size
@@ -77,4 +75,4 @@ class LCD
   end
 end
 
-LCD.new(3, 3).display(ARGV.join(" "))
+LCD.new(3, 3).display(ARGV.join(' '))

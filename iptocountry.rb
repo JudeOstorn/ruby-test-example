@@ -12,11 +12,11 @@ module IpToCountry
         ip_to = line.split(',')[1].slice(1..-2).to_i
 
         if ip.between?(ip_from, ip_to)
-          country =  line.split(',')[4].slice(1..-2)
+          country = line.split(',')[4].slice(1..-2)
           break
         end
       end
-      "Country: #{country.nil? ? 'not found': country}"
+      "Country: #{country.nil? ? 'not found' : country}"
     end
   rescue => exception
     puts "Error! #{exception.inspect}"

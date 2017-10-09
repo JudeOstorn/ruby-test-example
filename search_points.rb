@@ -6,20 +6,17 @@
 #
 # Вариантов решения просто море. выбирай любой. я даже не знаю какой когда правильный.
 
-
-
 module Search_points
   def search_points
     result = []
 
-    self.points.each do |point|
-      if ((point[0] - self.center[0])**2 + (point[1] - self.center[1])**2) <= self.radius**2
+    points.each do |point|
+      if ((point[0] - center[0])**2 + (point[1] - center[1])**2) <= radius**2
         result << point
       end
     end
 
-    return result
-
+    result
   end
 end
 
@@ -28,20 +25,18 @@ class Search_parametrs
 
   include Search_points
 
-  def initialize(radius: 5, center: [56.123124,72.123124], points: [[43,54],[65,56]])
+  def initialize(radius: 5, center: [56.123124, 72.123124], points: [[43, 54], [65, 56]])
     @radius = radius
     @center = center
     @points = points
   end
 end
 
+radius = 10
+center = [56.123124, 72.123124]
+points = [[56, 76], [34, 12], [43, 54], [65, 156]]
 
+params = Search_parametrs.new(radius: radius, center: center, points: points)
 
-  radius = 10
-  center = [56.123124,72.123124]
-  points = [[56,76],[34,12],[43,54],[65,156]]
-
-  params = Search_parametrs.new(radius: radius, center: center, points: points)
-
-  a = params.search_points
-  p a
+a = params.search_points
+p a
