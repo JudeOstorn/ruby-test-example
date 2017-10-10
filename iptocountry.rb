@@ -6,7 +6,7 @@ module IpToCountry
   def self.find_country(ip)
     IPS_ARRAY.each do |row|
       if ip.between?(row[0], row[1])
-        p "result: #{row[2].to_sym}"
+        p "result: #{row[2]}"
         break
       end
     end
