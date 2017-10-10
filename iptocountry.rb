@@ -1,13 +1,12 @@
 require 'ipaddr'
 
 module IpToCountry
-  IPS_ARRAY = [].freeze
+  IPS_ARRAY = []
 
   def self.find_country(ip)
-    ip = ip[3] + (ip[2] * 256) + (ip[1] * 256**2) + (ip[0] * 256**3)
     IPS_ARRAY.each do |row|
       if ip.between?(row[0], row[1])
-        p "result: #{row[2]}"
+        p "result: #{row[2].to_sym}"
         break
       end
     end
@@ -21,11 +20,12 @@ module IpToCountry
       ip_from = line.split(',')[0].slice(1..-2).to_i
       ip_to = line.split(',')[1].slice(1..-2).to_i
       country = line.split(',')[6].slice(1..-2)
-      IPS_ARRAY << [ip_from, ip_to, country]
+      IPS_ARRAY << [ip_from, ip_to, country.chop]
     end
-    IPS_ARRAY
+    IPS_ARRAY.freeze
   end
 end
 
 ips_array = IpToCountry.read_from_file('IpToCountry.csv')
-IpToCountry.find_country(ARGV.first.split('.').map(&:to_i))
+#i = ARGV.join(" ")
+IpToCountry.find_country(Anet1 = IPAddr.new(ARGV.join(" ")).to_i())
