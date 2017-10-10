@@ -7,7 +7,6 @@ module IpToCountry
   end
 
   def self.read_from_file(file_name)
-    ips_fields_array = []
     ips_fields = CSV.read(file_name, quote_char: "\x00", skip_lines: '\#')
 
     ips_fields
