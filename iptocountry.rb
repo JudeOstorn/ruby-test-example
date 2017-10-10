@@ -27,5 +27,4 @@ module IpToCountry
 end
 
 ips_array = IpToCountry.read_from_file('IpToCountry.csv')
-#i = ARGV.join(" ")
-IpToCountry.find_country(Anet1 = IPAddr.new(ARGV.join(" ")).to_i())
+IpToCountry.find_country(ip = IPAddr.new(ARGV.join(" ")).to_i())
