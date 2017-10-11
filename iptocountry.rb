@@ -40,39 +40,36 @@ module IpToCountry
     end
   end
 
-  def self.search_tree(node: 1, vl: 4, vr: 5, ip: 16_777_216)
-    unless TREE[node].nil?
-      a1 = TREE[node][0].first.to_i
-      a2 = TREE[node][0].last.to_i
-      p node
-      if ip.between?(a1, a2)
-        return TREE[node][1]
-      end
+  def self.search_tree(node: 1, ip: 16_777_216)
+
+    if TREE[node].size == 2#ip.between?(TREE[node][0].first, TREE[node][0].last)
+      #p (node - 1) / 2
+      #p node
+      #p TREE[(((node - 1) / 2)-2)/2]
+      return TREE[node]
     end
-    vm = vl + (vr - vl) / 2
-    ql = search_tree(node: (2 * node + 1).to_i, vl: vl, vr: vm.to_i, ip: ip)
-    qr = search_tree(node: (2 * node + 2).to_i, vl: (vm + 1), vr: vr, ip: ip)
-    (ql + qr)
+
+    if ip - (TREE[node][0].first) < (TREE[node][-2].last) - ip
+      return search_tree(node: (2 * node + 1).to_i, ip: ip)
+    else
+      return search_tree(node: (2 * node + 2).to_i, ip: ip)
+    end
   end
 end
 
 IpToCountry.read_from_file('IpToCountry.csv')
 IpToCountry.build_tree
-# p IpToCountry::ARRAY[1][0]
-#p a = IpToCountry::TREE[524287][0]
-#a1 = a.first
-#a2 = a.last
-#ip = IPAddr.new(ARGV.join(' ')).to_i
-#p ip.between?(a1, a2)
-p a = IpToCountry.search_tree(node: 1, vl: 4, vr: 5, ip: ip = IPAddr.new(ARGV.join(' ')).to_i)
-# ARRAY[0..NUM_ARR/8]
-# p IpToCountry::ARRAY[0..69782].size
+#p ip = IPAddr.new(ARGV.join(' ')).to_i
+#p a1 = IpToCountry::TREE[3][0].first
+#p a2 = IpToCountry::TREE[4][-2].last
+#if a1 - ip  < a2 - ip
+#  p 'left'
+#else
+#  p 'right'
+#end
+#p a1 - ip
+#p a2 - ip   IpToCountry::TREE.size
+#p IpToCountry::TREE[655359..655360]
 
-# p IpToCountry::TREE
-# a = IpToCountry::TREE[1][0]
-# b = IpToCountry::TREE[1][-2]
-# p a#.size
-# p b
-# p ips_fields.size
-# p IpToCountry::ARRAY[0][0]
-# IpToCountry.find_country(ip = IPAddr.new(ARGV.join(' ')).to_i)
+p ip = IPAddr.new(ARGV.join(' ')).to_i
+p a = IpToCountry.search_tree(node: 1, ip: ip = IPAddr.new(ARGV.join(' ')).to_i)
