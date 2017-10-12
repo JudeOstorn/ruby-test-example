@@ -2,23 +2,8 @@ require 'ipaddr'
 require 'csv'
 
 module IpToCountry
-  ARRAY = [] # (1..10).to_a
+  ARRAY = []
   TREE = []
-
-  def self.find_country(_ip, _file)
-    # file.find { |row| p row[6].slice(1..-2) if ip.between?(row[0].slice(1..-2).to_i, row[1].slice(1..-2).to_i) }
-    # n = file.size
-    # i = 0
-    # TREE << file[i..i+1]
-    # p TREE
-    # while i < n do
-    #  range = (file[i][0].slice(1..-2).to_i)..(file[i][1].slice(1..-2).to_i)
-    #  country = file[i][6].slice(1..-2)
-    #  TREE << [range, country] #..i+1[1]   ,1,6
-    #  i+=2
-    # end
-    # p TREE[0..4]
-  end
 
   def self.read_from_file(file_name)
     CSV.foreach(file_name, quote_char: "\x00", skip_lines: '\#') do |row|
@@ -26,6 +11,7 @@ module IpToCountry
       country = row[6].slice(1..-2)
       ARRAY << [range, country]
     end
+      ARRAY.freeze
   end
 
   def self.build_tree(i: 1, tl: 0, tr: (ARRAY.size - 1))
@@ -40,91 +26,97 @@ module IpToCountry
   end
 
   def self.search_tree(node: 1, ip: 16_777_216)
-
-    if TREE[node].size == 2#ip.between?(TREE[node][0].first, TREE[node][0].last)
-      #p (node - 1) / 2
-      #p node
-      #p TREE[(((node - 1) / 2)-2)/2]
+    if TREE[node].size == 2
       return TREE[node]
     end
+    left_node = TREE[node][0..TREE[node].size / 2]
+    right_node = TREE[node][TREE[node].size / 2..TREE[node].size]
+    right_edge = if right_node[0].class == String
+                   right_node[1]
+                 else
+                   right_node[0]
+                 end
 
-    p node
-    #p vl = IpToCountry::TREE[node][0].first
-    #p vr = IpToCountry::TREE[node][-2].first
-
-    l = TREE[node][0..TREE[node].size/2]
-    r = TREE[node][TREE[node].size/2..TREE[node].size]
-    #p l[-2].class
-    p '---'
-    p l[0]
-    p l[-2]
-    p '---'
-    p r[0]
-    p r[-2]
-    p '---'
-
-    p "l = #{l[-2].class}"
-    p "r = #{r[0].class}"
-
-    #p r[0]
-    #p "левый #{ip - vl}"
-    #p "правый #{vr - ip}"
-    #if ip - vl < vr - ip
-    if r[0].class == String
-      r = r[1]
-    else
-      r = r[0]
-    end
-
-      if l[-2].class == String
-        if ip < l[-3].last #|| ip > r.first
-          p 'left'
-          return search_tree(node: (2 * node).to_i, ip: ip)
-        elsif ip > r.first
-          p 'right'
-          return search_tree(node: (2 * node + 1).to_i, ip: ip)
-        end
-      else
-        if ip < l[-2].last #|| ip > r.first
-          p 'left'
-          return search_tree(node: (2 * node).to_i, ip: ip)
-        elsif ip > r.first
-          p 'right'
-          return search_tree(node: (2 * node + 1).to_i, ip: ip)
-        end
+    if left_node[-2].class == String
+      if ip < left_node[-3].last
+        return search_tree(node: (2 * node).to_i, ip: ip)
+      elsif ip > right_edge.first
+        return search_tree(node: (2 * node + 1).to_i, ip: ip)
       end
+    else
+      if ip < left_node[-2].last
+        return search_tree(node: (2 * node).to_i, ip: ip)
+      elsif ip > right_edge.first
+        return search_tree(node: (2 * node + 1).to_i, ip: ip)
+      end
+    end
+  rescue => exception
+    puts "Error! #{exception.inspect}"
+  end
 
+  def self.debug_search_tree(node: 1, ip: 16_777_216)
+    if TREE[node].size == 2
+      p ' '
+      p 'мы достигли дна капитан!!'
+      p ' '
+      return TREE[node]
+    end
+    p ' '
+    p "мы на #{node} узле"
+    p ' '
+    left_node = TREE[node][0..TREE[node].size / 2]
+    right_node = TREE[node][TREE[node].size / 2..TREE[node].size]
+
+    p '-левая часть-'
+    p "левый край -:#{left_node[0]}"
+    p "правый край :#{left_node[-2]}"
+    p ' '
+    p '-правая часть-'
+    p "левый край -:#{right_node[0]}"
+    p "правый край :#{right_node[-2]}"
+    p ' '
+
+    right_edge = if right_node[0].class == String
+          right_node[1]
+        else
+          right_node[0]
+        end
+
+    if left_node[-2].class == String
+      if ip < left_node[-3].last # || ip > r.first
+        p 'поворачеваем на лево капитан!!'
+        return search_tree(node: (2 * node).to_i, ip: ip)
+      elsif ip > right_edge.first
+        p 'поворачеваем на право капитан!!'
+        return search_tree(node: (2 * node + 1).to_i, ip: ip)
+      end
+    else
+      if ip < left_node[-2].last # || ip > r.first
+        p 'поворачеваем на лево капитан!!'
+        return search_tree(node: (2 * node).to_i, ip: ip)
+      elsif ip > right_edge.first
+        p 'поворачеваем на право капитан!!'
+        return search_tree(node: (2 * node + 1).to_i, ip: ip)
+      end
+    end
+  rescue => exception
+    puts "Error! #{exception.inspect}"
   end
 end
 
-IpToCountry.read_from_file('IpToCountry.csv')
-IpToCountry.build_tree
-#p ip = IPAddr.new(ARGV.join(' ')).to_i
-#ip = 1_477_238_162
-#p a1 = IpToCountry::TREE[3][0].first
-#p a2 = IpToCountry::TREE[3][-2].last
+begin
+  IpToCountry.read_from_file('IpToCountry.csv')
+  IpToCountry.build_tree
+  ip = IPAddr.new(ARGV.join(' ')).to_i
+  p "Мы ищем: #{ARGV.join(' ')} <=> #{ip}"
 
-#1_426_906_514 my ip
-#0..4294967295  all ips
-#2147483648  center
-#p IpToCountry::TREE[4][IpToCountry::TREE[4].size/2..IpToCountry::TREE[4].size/2+10]
-#1475612672
-#1481965568
-
-#if ip - a1 < a2 - ip
-#  p 'left'
-#else
-#  p 'right'
-#end
-#p ip - a1
-#p a2 - ip   #IpToCountry::TREE.size
-#r = IpToCountry::TREE[16][IpToCountry::TREE[16].size/2..IpToCountry::TREE[16].size]
-#l = IpToCountry::TREE[16][0..IpToCountry::TREE[16].size/2]
-#p l[-2]
-#p r[0]
-##p IpToCountry::TREE[32][0]
-
-#p ip = IPAddr.new(ARGV.join(' ')).to_i
-#p '-'
-p ip = 1_426_906_514
-p a = IpToCountry.search_tree(node: 1, ip: ip = IPAddr.new(ARGV.join(' ')).to_i)
+  #раскомментируйте строку ниже и закоментируйте (p result = IpToCountry.search_tree(ip: ip))
+  # если хотите узнать данные на каждом узле
+  #p result = IpToCountry.debug_search_tree(ip: ip)
+  p result = IpToCountry.search_tree(ip: ip)
+  
+  p ' '
+  p "Искомый ip находится в #{result[1]}"
+rescue => exception
+  puts "Error! #{exception.inspect}"
+end
