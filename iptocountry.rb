@@ -10,19 +10,18 @@ module IpToCountry
       country = row[6].slice(1..-2)
       ARRAY << [range, country]
     end
-      ARRAY.freeze
+    ARRAY.freeze
   end
 
-  def self.binary_search (ips: ARRAY, ip: 16_909_060)
+  def self.binary_search(ips: ARRAY, ip: 16_909_060)
     if ips.size == 1
       ips
-    elsif ip < ips[ips.size/2-1][0].last
-      binary_search(ips: ips[0..ips.size/2-1], ip: ip)
-    elsif ip > ips[ips.size/2][0].first
-      binary_search(ips: ips[ips.size/2..ips.size], ip: ip)
+    elsif ip < ips[ips.size / 2 - 1][0].last
+      binary_search(ips: ips[0..ips.size / 2 - 1], ip: ip)
+    elsif ip > ips[ips.size / 2][0].first
+      binary_search(ips: ips[ips.size / 2..ips.size], ip: ip)
     end
   end
-
 end
 
 begin
