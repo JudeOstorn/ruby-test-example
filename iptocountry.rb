@@ -14,10 +14,10 @@ module IpToCountry
   end
 
   def self.binary_search (ips: ARRAY, ip: 16_909_060)
-    if ips.size == 2
-      ips[1]
-    elsif ip < ips[ips.size/2][0].last
-      binary_search(ips: ips[0..ips.size/2], ip: ip)
+    if ips.size == 1
+      ips
+    elsif ip < ips[ips.size/2-1][0].last
+      binary_search(ips: ips[0..ips.size/2-1], ip: ip)
     elsif ip > ips[ips.size/2][0].first
       binary_search(ips: ips[ips.size/2..ips.size], ip: ip)
     end
@@ -30,7 +30,7 @@ begin
   ip = IPAddr.new(ARGV.join(' ')).to_i
   p "Мы ищем: #{ARGV.join(' ')} <=> #{ip}"
   p result = IpToCountry.binary_search(ip: ip)
-  p "Искомый ip находится в #{result[1]}"
+  p "Искомый ip находится в #{result[0][1]}"
 rescue => exception
   puts "Error! #{exception.inspect}"
 end
