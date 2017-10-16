@@ -10,8 +10,7 @@ class Entry
 end
 
 module IpToCountry
-  class << self
-    def read_and_search(file_name, ip)
+    def self.read_and_search(file_name, ip)
       array = []
       CSV.foreach(file_name, skip_lines: '\#') do |row|
         range = (row[0].to_i)..(row[1].to_i)
@@ -22,7 +21,6 @@ module IpToCountry
       p a.range
       p a.country
     end
-  end
 end
-
-IpToCountry.read_from_file('IpToCountry.csv', IPAddr.new(ARGV.join(' ')).to_i)
+p ip = IPAddr.new(ARGV.join(' ')).to_i
+IpToCountry.read_and_search('IpToCountry.csv', ip)
