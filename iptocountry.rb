@@ -17,7 +17,7 @@ module IpToCountry
       array = []
       CSV.foreach(file_name, skip_lines: '\#') do |row|
         range = (row[0].to_i)..(row[1].to_i)
-        country = row[6
+        country = row[6]
         array << Entry.new(range, country)
       end
       array
