@@ -15,9 +15,9 @@ module IpToCountry
   class << self
     def read_from_file(file_name)
       array = []
-      CSV.foreach(file_name, quote_char: "\x00", skip_lines: '\#') do |row|
-        range = (row[0].slice(1..-2).to_i)..(row[1].slice(1..-2).to_i)
-        country = row[6].slice(1..-2)
+      CSV.foreach(file_name, skip_lines: '\#') do |row|
+        range = (row[0].to_i)..(row[1].to_i)
+        country = row[6
         array << Entry.new(range, country)
       end
       array
