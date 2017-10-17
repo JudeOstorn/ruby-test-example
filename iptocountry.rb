@@ -43,4 +43,3 @@ class IpInfo
 end
 
 p ip_info = IpInfo.new.search(IPAddr.new(ARGV.first).to_i).country
-#p ip_info
