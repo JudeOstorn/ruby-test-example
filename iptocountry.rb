@@ -3,7 +3,7 @@ require 'csv'
 
 # ALL IP information from file
 class IpInfo
-  def initialize(file_name)
+  def initialize
     Struct.new('Entry',
                :ip_from,
                :ip_to,
@@ -13,7 +13,7 @@ class IpInfo
                :cntry,
                :country)
 
-    @file_name = file_name
+    @file_name = 'IpToCountry.csv'
     @ip_info = []
     read_file
   end
@@ -42,5 +42,5 @@ class IpInfo
   end
 end
 
-ip_info = IpInfo.new('IpToCountry.csv')
-p ip_info.search(IPAddr.new(ARGV.first).to_i).country
+p ip_info = IpInfo.new.search(IPAddr.new(ARGV.first).to_i).country
+#p ip_info
